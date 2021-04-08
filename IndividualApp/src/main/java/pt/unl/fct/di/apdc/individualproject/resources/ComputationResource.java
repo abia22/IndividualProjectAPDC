@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.resources;
+package pt.unl.fct.di.apdc.individualproject.resources;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

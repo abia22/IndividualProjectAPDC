@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.resources;
+package pt.unl.fct.di.apdc.individualproject.resources;
 
 import java.util.logging.Logger;
 
@@ -15,8 +15,8 @@ import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUti
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
-import pt.unl.fct.di.apdc.firstwebapp.util.AuthToken;
-import pt.unl.fct.di.apdc.firstwebapp.util.LoginData;
+import pt.unl.fct.di.apdc.individualproject.util.AuthToken;
+import pt.unl.fct.di.apdc.individualproject.util.LoginData;
 
 @Path("/sign")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")

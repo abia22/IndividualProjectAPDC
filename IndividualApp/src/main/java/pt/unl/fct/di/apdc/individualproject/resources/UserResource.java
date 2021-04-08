@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.resources;
+package pt.unl.fct.di.apdc.individualproject.resources;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +16,7 @@ import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUti
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 
-import pt.unl.fct.di.apdc.firstwebapp.util.UserData;
+import pt.unl.fct.di.apdc.individualproject.util.UserData;
 
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")

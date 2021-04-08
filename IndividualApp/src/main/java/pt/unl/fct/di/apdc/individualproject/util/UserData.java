@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.util;
+package pt.unl.fct.di.apdc.individualproject.util;
 
 public class UserData {
 	

@@ -1,4 +1,4 @@
-package pt.unl.fct.di.apdc.firstwebapp.filters;
+package pt.unl.fct.di.apdc.individualproject.filters;
 
 import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;

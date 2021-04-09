@@ -137,7 +137,7 @@ public class UserResource {
 					return Response.ok().entity("User with username " + data.username + " removed.").build();
 				} else {
 					txn.rollback();
-					return Response.status(Status.FORBIDDEN).entity(data.at.username + " cannot remove another user").build();
+					return Response.status(Status.FORBIDDEN).entity(data.at.username + " doesn't have permisson to remove this user").build();
 				}
 					
 			} else {
@@ -214,6 +214,7 @@ public class UserResource {
 	
 	@POST
 	@Path("/role")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifyUserRole(UserData data) {
 		Transaction txn = datastore.newTransaction();
 		Key userKey = userKeyFactory.newKey(data.username);
@@ -224,11 +225,14 @@ public class UserResource {
 				.addAncestors(PathElement.of("User", data.username))
 				.setKind("Profile").newKey(data.username);
 		Key tokenKey = tokenKeyFactory.newKey(data.at.username);
+		Key oldTokenKey = tokenKeyFactory.newKey(data.username);
+		Key newTokenKey = tokenKeyFactory.newKey(data.username);
 		
 		try {
 			Entity user = txn.get(userKey);
 			Entity profile = txn.get(oldProfileKey);
 			Entity token = txn.get(tokenKey);
+			Entity oldToken = txn.get(oldTokenKey);
 			
 			if(token != null && data.at.isValid(token.getLong("expirationData")) && data.at.tokenID.equals(token.getString("id"))) {
 				if(user == null) {
@@ -252,9 +256,20 @@ public class UserResource {
 					
 					txn.delete(oldProfileKey);
 					txn.add(newProfile);
+					if(oldToken != null) {
+						Entity newToken = Entity.newBuilder(newTokenKey)
+								.set("username", oldToken.getString("username"))
+								.set("id", oldToken.getString("id"))
+								.set("role", data.role)
+								.set("creationData",oldToken.getLong("creationData"))
+								.set("expirationData", oldToken.getLong("expirationData"))
+								.build();
+						txn.delete(oldTokenKey);
+						txn.add(newToken);
+					}
 					txn.commit();
 					
-					return Response.ok().entity( data.username + " role updated.").build();
+					return Response.ok().entity( data.username + " role updated to role " + data.role + ".").build();
 				} else {
 					txn.rollback();
 					return Response.status(Status.FORBIDDEN).entity("No permisson to change role.").build();
@@ -276,6 +291,7 @@ public class UserResource {
 	
 	@POST
 	@Path("/state")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response modifyUserState(UserData data) {
 		Transaction txn = datastore.newTransaction();
 		Key userKey = userKeyFactory.newKey(data.username);

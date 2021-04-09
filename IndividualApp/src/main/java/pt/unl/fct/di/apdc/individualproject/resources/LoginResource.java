@@ -97,6 +97,7 @@ public class LoginResource {
 	
 	@Path("/out")
 	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response logout(LoginData data) {
 		Key tokenKey = tokenKeyFactory.newKey(data.at.username);
 		Transaction txn = datastore.newTransaction();
